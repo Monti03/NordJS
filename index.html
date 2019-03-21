@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <!--my css-->
+    <link rel="stylesheet" href="index_style.css">
+    <!--my js-->
+    <script type="text/javascript" src="index_js.js"></script>
+    
+    <!--map things-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+      regions = Object.keys(COUNTRY_CODES)
+
+      regions_data = [
+              ['Country'],
+              ['South Africa'],['Egypt'],
+              ['Turkey'], ['Israel'], ['United Arab Emirates'], ['India'], ['South Korea'], ['Singapore'], ['Taiwan'], ['Vietnam'],
+              ['Hong Kong'], ['Indonesia'], ['Thailand'], ['Japan'], ['Malaysia'],
+              ['United States'], ['Canada'], ['Mexico'], ['Brazil'], ['Costa Rica'], ['Argentina'], ['Chile'],
+              ['United Kingdom'], ['Netherlands'], ['Germany'], ['France'], ['Belgium'], ['Switzerland'], ['Sweden'],
+              ['Spain'], ['Denmark'], ['Italy'], ['Norway'], ['Austria'], ['Romania'], ['Czech Republic'], ['Luxembourg'],
+              ['Poland'], ['Finland'], ['Hungary'], ['Latvia'], ['Russia'], ['Iceland'], ['Bulgaria'], ['Croatia'], ['Moldova'],
+              ['Portugal'], ['Albania'], ['Ireland'], ['Slovakia'], ['Ukraine'], ['Cyprus'], ['Estonia'], ['Georgia'], ['Greece'],
+              ['Serbia'], ['Slovenia'], ['Azerbaijan'], ['Bosnia and Herzegovina'], ['Macedonia'],
+             ['Australia'], ['New Zealand']
+      ]
+      
+      function drawRegionsMap() { 
+        var data = google.visualization.arrayToDataTable(regions_data);
+
+        var options = {
+          displayMode: 'regions',
+          legend:'none',
+          enableRegionInteractivity:true,
+          magnifyingGlass:{enable: true, zoomFactor: 1000}
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+        google.visualization.events.addListener(chart, 'regionClick', regionCLick);
+
+        function regionCLick(e) {
+          console.log(e.region)
+          if(regions.includes(e.region))
+            document.getElementById('region').innerHTML = e.region
+          else  
+            document.getElementById('region').innerHTML = "QuickConnect"
+        }
+
+        chart.draw(data, options);
+      }
+
+      function start(){
+        var region = document.getElementById('region').innerHTML
+        var vpn_type = document.getElementById('VPN_type_select').value
+        var protocols = document.getElementsByName('Protocol');
+        var protocol;
+        for(var i = 0; i < protocols.length; i++){
+          if(protocols[i].checked){
+            protocol = protocols[i].value;
+          }
+        }
+        try{
+          console.log(region+" "+vpn_type+" "+protocol)
+          open_vpn_start(region,vpn_type,protocol)
+        }
+        catch (err){
+          console.log("catch something")
+          console.log(err)
+          return;
+        }
+        //document.getElementById("start_button").disabled = true;
+      }
+      
+      function stop(){
+        open_vpn_stop()
+      }
+
+    </script>
+  </head>
+  <body style="font-family:courier;">
+    <div id="regions_div" style="width: 750px; height: 500px;"></div>
+    <br>
+    <div id="VPN_type_div" class="alignleft"> 
+      VPN type:
+      <select id="VPN_type_select" class="styled-select green rounded" >
+        <option value="Standard VPN">Standard VPN</option>
+        <option value="P2P">P2P Not working</option>
+        <option value="Dedicated IP">Dedicated IP Not working</option>
+        <option value="Double VPN">Double VPN Not working</option>
+        <option value="Onion over VPN">Onion over VPN Not working</option>
+        <option value="Obfuscated">Obfuscated Not working</option>    
+      </select>
+    </div>
+    <div class="alignright">
+      Region:
+      <label id="region">QuickConnect</label>  
+    </div>
+    <br>
+    <br>
+    <div class="center" >
+      <form id="Protocol_form" action="">
+        <input type="radio" name="Protocol" value="TCP" checked>TCP 
+        <input type="radio" name="Protocol" value="UDP">UDP 
+        <!--<input type="radio" name="Protocol" value="lkev2/IPsec">lkev2/IPsec>-->
+      </form>
+    </div>
+
+    <br>
+    <div class="center">
+        <button id="start_button" class="button" onclick="start();">Connect </button>
+        <button id="stop_button" class="button" onclick="stop();">Disconnect</button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+.green{
+    background-color: green;
+    color: white;
+}
+.styled-select {
+    height: 29px;
+    overflow: hidden;
+    width: 240px;
+ }
+.rounded {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+.alignleft {
+	float: left;
+}
+.alignright {
+	float: right;
+}
+.center {
+    text-align: center;
+}
+.button {
+    background-color: green;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
