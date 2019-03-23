@@ -1,13 +1,13 @@
 const { app, BrowserWindow , Menu} = require('electron')
 var path = require('path')
 
-var myModule = require('./index_js');
+var myModule = require('./src/connection');
 
 let win
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 700, resizable: false,title: "NordJS", fullscreenable: false,icon: path.join(__dirname, "logo.png")})
+  win = new BrowserWindow({ width: 800, height: 700, resizable: false,title: "NordJS", fullscreenable: false,icon: path.join(__dirname,'media',"logo.png")})
 
   const nativeMenus = [{
     label:"Credentials",
@@ -23,7 +23,7 @@ function createWindow () {
   Menu.setApplicationMenu(menu)
 
   // and load the index.html of the app.
-  win.loadFile('index.html')
+  win.loadFile('src/index.html')
 
   // Open the DevTools.
   win.webContents.openDevTools()
