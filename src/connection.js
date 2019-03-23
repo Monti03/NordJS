@@ -133,10 +133,23 @@ function connect_vpn(region,vpn_type,protocol){
     };
     command = 'openvpn --config "'+ovpn_path+'" --auth-user-pass "./src/credentials/.credentials.txt"'
     
-    shell.exec(command,{async:true}, function(code, stdout, stderr){
-      if(stdout.includes("Received control message: AUTH_FAILED"))
-        alert("Error: your credentials are not correct. Check NodeJS/src/credentials/.credentials.txt ")
-    })
+    var exec = require('child-process-promise').exec;
+ 
+    promise = exec(command)
+    .then(console.log("terminated"))
+    .catch( err => console.log(err))
+
+    child_process = promise.childProcess
+
+    child_process.stdout.on('data', function (data) {
+      if(data.includes("AUTH_FAILED"))
+        alert("Error: your credentials are not correct.\nCheck NodeJS/src/credentials/.credentials.txt")
+      else if(data.includes("connection failed") || data.includes("Exiting"))
+        alert("Generic error")
+      else if(data.includes("Initialization Sequence Completed"))
+        alert("Connected")
+    });
+    
 
   });
 }

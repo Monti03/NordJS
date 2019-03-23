@@ -9,6 +9,7 @@
     "electron": "^4.1.0"
   },
   "dependencies": {
+    "child-process-promise": "^2.2.1",
     "path": "^0.12.7",
     "react-world-map": "^1.0.13",
     "require-path": "^0.3.0",
