@@ -19,10 +19,9 @@ sudo apt-get install nodejs
 sudo npm install electron -g
 ```
 
-#### Sudo Prompt
-
+#### Child Process Promise
 ```bash
-npm install sudo-promt
+npm install child-process-promise --save
 ```
 
 #### OpenVPN
