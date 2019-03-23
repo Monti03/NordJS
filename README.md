@@ -1,6 +1,8 @@
 # Simple Gui to use NordVPN on Linux
 
 ---
+if you want more options check this [repo](https://github.com/morpheusthewhite/NordPy)
+---
 
 ## Installation
 
