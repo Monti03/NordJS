@@ -8,53 +8,8 @@
     <!--map things-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      google.charts.load('current', {
-        'packages':['geochart'],
-        // Note: you will need to get a mapsApiKey for your project.
-        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
-      });
-      google.charts.setOnLoadCallback(drawRegionsMap);
 
-      regions = Object.keys(COUNTRY_CODES)
-
-      regions_data = [
-              ['Country'],
-              ['South Africa'],['Egypt'],
-              ['Turkey'], ['Israel'], ['United Arab Emirates'], ['India'], ['South Korea'], ['Singapore'], ['Taiwan'], ['Vietnam'],
-              ['Hong Kong'], ['Indonesia'], ['Thailand'], ['Japan'], ['Malaysia'],
-              ['United States'], ['Canada'], ['Mexico'], ['Brazil'], ['Costa Rica'], ['Argentina'], ['Chile'],
-              ['United Kingdom'], ['Netherlands'], ['Germany'], ['France'], ['Belgium'], ['Switzerland'], ['Sweden'],
-              ['Spain'], ['Denmark'], ['Italy'], ['Norway'], ['Austria'], ['Romania'], ['Czech Republic'], ['Luxembourg'],
-              ['Poland'], ['Finland'], ['Hungary'], ['Latvia'], ['Russia'], ['Iceland'], ['Bulgaria'], ['Croatia'], ['Moldova'],
-              ['Portugal'], ['Albania'], ['Ireland'], ['Slovakia'], ['Ukraine'], ['Cyprus'], ['Estonia'], ['Georgia'], ['Greece'],
-              ['Serbia'], ['Slovenia'], ['Azerbaijan'], ['Bosnia and Herzegovina'], ['Macedonia'],
-             ['Australia'], ['New Zealand']
-      ]
-      
-      function drawRegionsMap() { 
-        var data = google.visualization.arrayToDataTable(regions_data);
-
-        var options = {
-          displayMode: 'regions',
-          legend:'none',
-          enableRegionInteractivity:true,
-          magnifyingGlass:{enable: true, zoomFactor: 1000}
-        };
-
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-        google.visualization.events.addListener(chart, 'regionClick', regionCLick);
-
-        function regionCLick(e) {
-          console.log(e.region)
-          if(regions.includes(e.region))
-            document.getElementById('region').innerHTML = e.region
-          else  
-            document.getElementById('region').innerHTML = "QuickConnect"
-        }
-
-        chart.draw(data, options);
-      }
+      create_map(-1)
 
       function start(){
         var region = document.getElementById('region').innerHTML
@@ -82,10 +37,21 @@
         open_vpn_stop()
       }
 
+      window.onkeyup = function(e) {
+        var key = e.keyCode ? e.keyCode : e.which;
+        if(key == 27){
+          create_map(-1)
+        }
+      }
+
     </script>
+    
+
   </head>
   <body style="font-family:courier;">
-    <div id="regions_div" style="width: 750px; height: 500px;"></div>
+    <div id="container">
+      <div id="regions_div" style="width: 750px; height: 500px;" class="zoom" ></div>
+    </div>
     <br>
     <div id="VPN_type_div" class="alignleft"> 
       VPN type:

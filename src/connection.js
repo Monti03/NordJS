@@ -172,7 +172,6 @@ function connect_vpn(region,vpn_type,protocol){
   });
 }
 
-
 function open_vpn_stop(){
 
   var shell = require('shelljs');
@@ -193,7 +192,83 @@ function set_status(status){
   document.getElementById('status').innerHTML = status 
 }
 
+function create_map(region){
+
+  google.charts.load('current', {
+    'packages':['geochart'],
+    'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+  });
+  google.charts.setOnLoadCallback(drawRegionsMap);
+
+  regions = Object.keys(COUNTRY_CODES)
+
+  regions_data = [
+          ['Country'],
+          ['South Africa'],['Egypt'],
+          ['Turkey'], ['Israel'], ['United Arab Emirates'], ['India'], ['South Korea'], ['Singapore'], ['Taiwan'], ['Vietnam'],
+          ['Hong Kong'], ['Indonesia'], ['Thailand'], ['Japan'], ['Malaysia'],
+          ['United States'], ['Canada'], ['Mexico'], ['Brazil'], ['Costa Rica'], ['Argentina'], ['Chile'],
+          ['United Kingdom'], ['Netherlands'], ['Germany'], ['France'], ['Belgium'], ['Switzerland'], ['Sweden'],
+          ['Spain'], ['Denmark'], ['Italy'], ['Norway'], ['Austria'], ['Romania'], ['Czech Republic'], ['Luxembourg'],
+          ['Poland'], ['Finland'], ['Hungary'], ['Latvia'], ['Russia'], ['Iceland'], ['Bulgaria'], ['Croatia'], ['Moldova'],
+          ['Portugal'], ['Albania'], ['Ireland'], ['Slovakia'], ['Ukraine'], ['Cyprus'], ['Estonia'], ['Georgia'], ['Greece'],
+          ['Serbia'], ['Slovenia'], ['Azerbaijan'], ['Bosnia and Herzegovina'], ['Macedonia'],
+          ['Australia'], ['New Zealand']
+  ]
+  
+  european_data = [
+          ['Country'],
+          ['United Kingdom'], ['Netherlands'], ['Germany'], ['France'], ['Belgium'], ['Switzerland'], ['Sweden'],
+          ['Spain'], ['Denmark'], ['Italy'], ['Norway'], ['Austria'], ['Romania'], ['Czech Republic'], ['Luxembourg'],
+          ['Poland'], ['Finland'], ['Hungary'], ['Latvia'], ['Russia'], ['Iceland'], ['Bulgaria'], ['Croatia'], ['Moldova'],
+          ['Portugal'], ['Albania'], ['Ireland'], ['Slovakia'], ['Ukraine'], ['Cyprus'], ['Estonia'], ['Georgia'], ['Greece'],
+          ['Serbia'], ['Slovenia'], ['Bosnia and Herzegovina'], ['Macedonia'],
+  ]
+
+  world_data = [
+    ['Contry'],
+    ['002'],['019'],['150'],['142'],['009']
+  ]
+
+  function drawRegionsMap() { 
+    var data = google.visualization.arrayToDataTable(regions_data);
+
+    var options = {
+      displayMode: 'auto',
+      legend:'none',
+      enableRegionInteractivity:true,
+    };
+
+    if(region == -1){
+      options.resolution='continents'
+    }
+    else{
+      options.region = region
+    }
+
+    var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+    google.visualization.events.addListener(chart, 'regionClick', regionCLick);
+
+    function regionCLick(e) {
+      console.log(e.region)
+      if(["002","019","150","142","009"].includes(e.region)){
+        console.log("ok")
+        create_map(e.region)
+      }
+      else if(regions.includes(e.region))
+        document.getElementById('region').innerHTML = e.region
+      else  
+        document.getElementById('region').innerHTML = "QuickConnect"
+    }
+
+    chart.draw(data, options);
+  }
+}
+
 module.exports = {
   remove: remove_credentials,
   create: create_credentials
 }
+
+
+

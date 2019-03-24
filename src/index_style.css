@@ -43,3 +43,8 @@
 .styled-select:hover{
     background-color: #1c6621;
 }
+.zoom{}
+
+/* .zoom:hover{
+    transform: scale(1.2);
+} */
