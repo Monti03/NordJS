@@ -27,6 +27,14 @@ COUNTRY_CODES={
               "US": 228,"AE":226,"VN": 234
 }
 
+CONNECTING_STATUS = "Connecting to VPN"
+INSERTING_CREDENTIALS_STATUS = "Inserting credentials"
+AUTHENTICATION_ERROR_STATUS = "There was an error with your credentials"
+CONNECTED_STATUS = "Connceted to "
+GENERIC_ERROR_STATUS = "There was an error"
+DISCONNECTED_STATUS = "Not Connected"
+
+
 CREDENTIALS_FILE = "./src/credentials/.credentials.txt"
 
 var fs = require('fs')               
@@ -101,6 +109,10 @@ function open_vpn_start(region,vpn_type,protocol){
 }
 
 function connect_vpn(region,vpn_type,protocol){
+  set_status(CONNECTING_STATUS)
+
+  original_region = region
+
   //get best server  
   console.log(region+" "+vpn_type+" "+protocol)
   if(region == "QuickConnect"){
@@ -142,12 +154,18 @@ function connect_vpn(region,vpn_type,protocol){
     child_process = promise.childProcess
 
     child_process.stdout.on('data', function (data) {
-      if(data.includes("AUTH_FAILED"))
+      if(data.includes("AUTH_FAILED")){
+        set_status(AUTHENTICATION_ERROR_STATUS)
         alert("Error: your credentials are not correct.\nCheck NodeJS/src/credentials/.credentials.txt")
-      else if(data.includes("connection failed") || data.includes("Exiting"))
+      }
+      else if(data.includes("connection failed") || data.includes("Exiting")){
+        set_status(GENERIC_ERROR_STATUS)
         alert("Generic error")
-      else if(data.includes("Initialization Sequence Completed"))
+      }
+      else if(data.includes("Initialization Sequence Completed")){
+        set_status(CONNECTED_STATUS+original_region)
         alert("Connected")
+      }
     });
     
 
@@ -159,8 +177,10 @@ function open_vpn_stop(){
 
   var shell = require('shelljs');
   shell.exec('killall openvpn',{async:true}, function(code, stdout, stderr){
-    if(code == 0)
+    if(code == 0){
+      set_status(DISCONNECTED_STATUS)
       alert("Disconnected");  
+    }
     else if(code == 1)
       alert("Error: you were not protected by the vpn")
     else 
@@ -168,6 +188,10 @@ function open_vpn_stop(){
   })
 }
 
+
+function set_status(status){
+  document.getElementById('status').innerHTML = status 
+}
 
 module.exports = {
   remove: remove_credentials,

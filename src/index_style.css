@@ -3,14 +3,14 @@
     color: white;
 }
 .styled-select {
-    height: 29px;
+    height: 30px;
     overflow: hidden;
-    width: 240px;
+    width: 150px;
  }
 .rounded {
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
 .alignleft {
 	float: left;
@@ -29,7 +29,17 @@
     border-radius: 4px;
     cursor: pointer;
 }
-
+.down10{
+    position:relative;
+    top:10px;
+}
+.down5{
+    position:relative;
+    top:5px;
+}
 .button:hover {
-    background-color: #45a049;
+    background-color: #1c6621;
+}
+.styled-select:hover{
+    background-color: #1c6621;
 }

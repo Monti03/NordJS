@@ -91,14 +91,14 @@
       VPN type:
       <select id="VPN_type_select" class="styled-select green rounded" >
         <option value="Standard VPN">Standard VPN</option>
-        <option value="P2P">P2P Not working</option>
-        <option value="Dedicated IP">Dedicated IP Not working</option>
-        <option value="Double VPN">Double VPN Not working</option>
-        <option value="Onion over VPN">Onion over VPN Not working</option>
-        <option value="Obfuscated">Obfuscated Not working</option>    
+        <option value="P2P">P2P</option>
+        <option value="Dedicated IP">Dedicated IP</option>
+        <option value="Double VPN">Double VPN</option>
+        <option value="Onion over VPN">Onion over VPN</option>
+        <option value="Obfuscated">Obfuscated</option>    
       </select>
     </div>
-    <div class="alignright">
+    <div class="alignright down5">
       Region:
       <label id="region">QuickConnect</label>  
     </div>
@@ -113,9 +113,15 @@
     </div>
 
     <br>
-    <div class="center">
+    <div>
+      <div class="alignleft">
         <button id="start_button" class="button" onclick="start();">Connect </button>
         <button id="stop_button" class="button" onclick="stop();">Disconnect</button>
+      </div>
+      <div class="alignright down10">
+        Status: 
+        <label id="status">Not Connected</label> 
+      </div>
     </div>
   </body>
 </html>
