@@ -143,7 +143,7 @@ function connect_vpn(region,vpn_type,protocol){
     var options = {
       name: 'NordJS',
     };
-    command = 'openvpn --config "'+ovpn_path+'" --auth-user-pass "./src/credentials/.credentials.txt"'
+    command = 'openvpn --config "'+ovpn_path+'" --auth-user-pass "./src/credentials/.credentials.txt" --script-security 2 --up /etc/openvpn/update-resolv-conf --down /etc/openvpn/update-resolv-conf'
     
     var exec = require('child-process-promise').exec;
  
