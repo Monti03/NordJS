@@ -4,19 +4,36 @@
 if you want more options check this [repo](https://github.com/morpheusthewhite/NordPy)
 ---
 
+
+
 ## Installation
 
-#### NPM 
+You can try to execute 
+```bash 
+sudo ./install.sh
+```
 
+---
+
+#### NPM 
 ```bash
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install nodejs
 ```
 
 #### Electron
-
 ```bash
 sudo npm install electron -g
+```
+
+#### Sudo Prompt
+```bash 
+sudo npm install sudo-prompt
+```
+
+#### sudo Shelljs
+```bash
+sudo npm install shelljs --save
 ```
 
 #### Child Process Promise
@@ -33,6 +50,6 @@ npm install child-process-promise --save
 ## Start
 
 ```bash
-sudo npm start
+node start.js
 ```
 

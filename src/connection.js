@@ -33,7 +33,7 @@ AUTHENTICATION_ERROR_STATUS = "There was an error with your credentials"
 CONNECTED_STATUS = "Connceted to "
 GENERIC_ERROR_STATUS = "There was an error"
 DISCONNECTED_STATUS = "Not Connected"
-
+REGIONS = Object.keys(COUNTRY_CODES)
 
 CREDENTIALS_FILE = "./src/credentials/.credentials.txt"
 
@@ -200,8 +200,6 @@ function create_map(region){
   });
   google.charts.setOnLoadCallback(drawRegionsMap);
 
-  regions = Object.keys(COUNTRY_CODES)
-
   regions_data = [
           ['Country'],
           ['South Africa'],['Egypt'],
@@ -215,20 +213,6 @@ function create_map(region){
           ['Serbia'], ['Slovenia'], ['Azerbaijan'], ['Bosnia and Herzegovina'], ['Macedonia'],
           ['Australia'], ['New Zealand']
   ]
-  
-  european_data = [
-          ['Country'],
-          ['United Kingdom'], ['Netherlands'], ['Germany'], ['France'], ['Belgium'], ['Switzerland'], ['Sweden'],
-          ['Spain'], ['Denmark'], ['Italy'], ['Norway'], ['Austria'], ['Romania'], ['Czech Republic'], ['Luxembourg'],
-          ['Poland'], ['Finland'], ['Hungary'], ['Latvia'], ['Russia'], ['Iceland'], ['Bulgaria'], ['Croatia'], ['Moldova'],
-          ['Portugal'], ['Albania'], ['Ireland'], ['Slovakia'], ['Ukraine'], ['Cyprus'], ['Estonia'], ['Georgia'], ['Greece'],
-          ['Serbia'], ['Slovenia'], ['Bosnia and Herzegovina'], ['Macedonia'],
-  ]
-
-  world_data = [
-    ['Contry'],
-    ['002'],['019'],['150'],['142'],['009']
-  ]
 
   function drawRegionsMap() { 
     var data = google.visualization.arrayToDataTable(regions_data);
@@ -237,6 +221,7 @@ function create_map(region){
       displayMode: 'auto',
       legend:'none',
       enableRegionInteractivity:true,
+      width:"800px",
     };
 
     if(region == -1){
@@ -255,7 +240,7 @@ function create_map(region){
         console.log("ok")
         create_map(e.region)
       }
-      else if(regions.includes(e.region))
+      else if(REGIONS.includes(e.region))
         document.getElementById('region').innerHTML = e.region
       else  
         document.getElementById('region').innerHTML = "QuickConnect"

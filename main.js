@@ -15,7 +15,7 @@ function createWindow () {
       {label:"Remove Credentials", click(){myModule.remove()}},
       {label:"Create Credentials", click(){myModule.create()}}
     ]
-  
+
   }]
   const menu = Menu.buildFromTemplate(nativeMenus)
   Menu.setApplicationMenu(menu)
@@ -24,7 +24,7 @@ function createWindow () {
   win.loadFile('src/index.html')
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
