@@ -218,7 +218,53 @@ function get_status(){
   return document.getElementById('status').innerHTML
 }
 
+last_region = -1
+
 function create_map(region){
+  
+  console.log("r->"+region)
+
+
+  //calculating next region if user pressed a row key
+  if(last_region!= -1 && [37,38,39,40].includes(region)){
+    if(last_region == "002"){//Africa
+      if(region == 37){region = "019"}//left  America
+      else if(region == 38){region = "150"}//up Europe
+      else if(region == 39){region = "009"}//right Oceania
+      else if(region == 40){}//down
+    }
+    else if(last_region == "009"){//Oceania
+      if(region == 37){region = "002"}//left Africa 
+      else if(region == 38){region = "142"}//up Asia
+      else if(region == 39){region = "019"}//right America
+      else if(region == 40){}//down
+    }
+    else if(last_region == "019"){//America
+      if(region == 37){region = "142"}//left Asia
+      else if(region == 38){}//up
+      else if(region == 39){region = "150"}//right Europe
+      else if(region == 40){}//down
+    }
+    else if(last_region == "150"){//Europe
+      if(region == 37){region = "019"}//left America
+      else if(region == 38){}//up
+      else if(region == 39){region = "142"}//right
+      else if(region == 40){region = "002"}//down
+    }
+    else if(last_region == "142"){//Asia
+      if(region == 37){region = "150"}//left Europe
+      else if(region == 38){region = "150"}//up
+      else if(region == 39){region = "019"}//right
+      else if(region == 40){region = "009"}//down
+    }
+  }
+
+  if([37,38,39,40].includes(region))
+    return
+
+  last_region = region
+
+  console.log("new region ->"+region)
 
   google.charts.load('current', {
     'packages':['geochart'],
