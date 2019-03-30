@@ -98,6 +98,19 @@ function remove_credentials(){
 function open_vpn_start(region,vpn_type,protocol){
   try {
     if (fs.existsSync(CREDENTIALS_FILE)) {
+      
+      prev_status = get_status()
+      console.log(prev_status)
+
+      if(prev_status == CONNECTING_STATUS){
+        alert("You just started a connection.\nWait for it to start")
+        return;
+      }
+      else if(prev_status.includes(CONNECTED_STATUS)){
+        alert("You have to disconnect before start a new connection")
+        return;
+      }
+
       connect_vpn(region,vpn_type,protocol)
     }
     else{
@@ -109,6 +122,7 @@ function open_vpn_start(region,vpn_type,protocol){
 }
 
 function connect_vpn(region,vpn_type,protocol){
+
   set_status(CONNECTING_STATUS)
 
   original_region = region
@@ -133,8 +147,14 @@ function connect_vpn(region,vpn_type,protocol){
       alert("There was an error during the request to NordVPN for the best server")
       throw error
     }
-
-    server = JSON.parse(body)[0]["hostname"]
+    try{
+      server = JSON.parse(body)[0]["hostname"]
+    }
+    catch(err){
+      alert("There was an error during the request to NordVPN for the best server")
+      set_status(GENERIC_ERROR_STATUS)
+      return;
+    }
     console.log(server)
 
     ovpn_path = "/etc/openvpn/ovpn_"+protocol.toLowerCase()+"/"+server+"."+protocol.toLowerCase()+".ovpn"
@@ -148,7 +168,7 @@ function connect_vpn(region,vpn_type,protocol){
     var exec = require('child-process-promise').exec;
  
     promise = exec(command)
-    .then(console.log("terminated"))
+    .then(console.log("command executed"))
     .catch( err => console.log(err))
 
     child_process = promise.childProcess
@@ -172,24 +192,30 @@ function connect_vpn(region,vpn_type,protocol){
   });
 }
 
+
 function open_vpn_stop(){
 
   var shell = require('shelljs');
-  shell.exec('killall openvpn',{async:true}, function(code, stdout, stderr){
+  shell.exec('killall openvpn',{}, function(code, stdout, stderr){
     if(code == 0){
       set_status(DISCONNECTED_STATUS)
       alert("Disconnected");  
     }
     else if(code == 1)
       alert("Error: you were not protected by the vpn")
-    else 
+    else{      
       alert("Generic error")
+    }
   })
 }
 
 
 function set_status(status){
   document.getElementById('status').innerHTML = status 
+}
+
+function get_status(){
+  return document.getElementById('status').innerHTML
 }
 
 function create_map(region){
