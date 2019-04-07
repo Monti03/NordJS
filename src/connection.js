@@ -145,10 +145,18 @@ function connect_vpn(region,vpn_type,protocol){
   request(url, function (error, response, body) {
     if(error){
       alert("There was an error during the request to NordVPN for the best server")
+      set_status(GENERIC_ERROR_STATUS)
       throw error
     }
     try{
-      server = JSON.parse(body)[0]["hostname"]
+      i = 0
+      while(true){
+        server = JSON.parse(body)[i]["hostname"]
+        if(fs.existsSync("/etc/openvpn/ovpn_"+protocol.toLowerCase()+"/"+server+"."+protocol.toLowerCase()+".ovpn"))
+          break
+        console.log("not exists")
+        i = i+1 
+      }
     }
     catch(err){
       alert("There was an error during the request to NordVPN for the best server")
@@ -164,12 +172,12 @@ function connect_vpn(region,vpn_type,protocol){
       name: 'NordJS',
     };
     command = 'openvpn --config "'+ovpn_path+'" --auth-user-pass "./src/credentials/.credentials.txt" --script-security 2 --up /etc/openvpn/update-resolv-conf --down /etc/openvpn/update-resolv-conf'
-    
+    console.log(command)
     var exec = require('child-process-promise').exec;
  
     promise = exec(command)
     .then(console.log("command executed"))
-    .catch( err => console.log(err))
+    .catch( err => {console.log(err);  set_status(GENERIC_ERROR_STATUS)})
 
     child_process = promise.childProcess
 
