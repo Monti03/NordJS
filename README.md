@@ -4,6 +4,16 @@
 if you want more options check this [repo](https://github.com/morpheusthewhite/NordPy)
 ---
 
+---
+
+
+
+<img src= "./media/readme_imgs/first.png">
+
+
+
+<img src= "./media/readme_imgs/second.png">
+
 
 
 ## Installation
