@@ -6,14 +6,8 @@ if you want more options check this [repo](https://github.com/morpheusthewhite/N
 
 ---
 
-
-
-<img src= "./media/readme_imgs/first.png">
-
-
-
-<img src= "./media/readme_imgs/second.png">
-
+<p align="center">
+  <img src= "./media/readme_imgs/first.png" width="300px" height="250px">|<img src= "./media/readme_imgs/second.png" width="300px" height="250px">
 
 
 ## Installation
