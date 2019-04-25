@@ -126,8 +126,6 @@ function connect_vpn(region,vpn_type,protocol){
 
   set_status(CONNECTING_STATUS)
 
-  original_region = region
-
   //get best server  
   console.log(region+" "+vpn_type+" "+protocol)
   if(region == "QuickConnect"){
@@ -192,7 +190,7 @@ function connect_vpn(region,vpn_type,protocol){
         alert("Generic error")
       }
       else if(data.includes("Initialization Sequence Completed")){
-        set_status(CONNECTED_STATUS+original_region)
+        set_status(CONNECTED_STATUS+server.substring(0,2).toUpperCase())
         alert("Connected")
       }
     });
