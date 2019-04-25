@@ -33,6 +33,7 @@ AUTHENTICATION_ERROR_STATUS = "There was an error with your credentials"
 CONNECTED_STATUS = "Connceted to "
 GENERIC_ERROR_STATUS = "There was an error"
 DISCONNECTED_STATUS = "Not Connected"
+CHECKING_PREVIOUS_CONNECTION = "Checking prevoios connections"
 REGIONS = Object.keys(COUNTRY_CODES)
 
 CREDENTIALS_FILE = "./src/credentials/.credentials.txt"
@@ -71,7 +72,7 @@ function create_credentials(region,vpn_type,protocol,bool=true){
     fullscreenable: false,
   })
 
-  newWindow.webContents.openDevTools()
+  //newWindow.webContents.openDevTools()
 
   newWindow.loadFile('./src/credentials/credentials.html')
 
@@ -224,6 +225,29 @@ function set_status(status){
 
 function get_status(){
   return document.getElementById('status').innerHTML
+}
+
+function ckeck_previous_connections(){
+  
+  shell.exec('ps aux | grep openvpn', function(code, stdout, stderr) {    
+    console.log('Program output:', stdout);
+    
+    str_new_line = stdout.split("\n")
+    if(str_new_line.length <= 1)
+      set_status(DISCONNECTED_STATUS)
+    else{
+      var str_space=str_new_line[0].split(" ")
+      
+      for(i=0; i<str_space.length; i++){
+        if(str_space[i]== "--config"){
+          file_path = str_space[i+1].split("/")
+          nation = file_path[file_path.length -1].substring(0,2)
+          set_status(CONNECTED_STATUS+nation.toUpperCase())
+          
+        }
+      }
+    }
+  });
 }
 
 module.exports = {
