@@ -68,7 +68,7 @@ function create_credentials(region,vpn_type,protocol,bool=true){
     width: 400,
     title: 'Credentials',
     minimizable: false,
-    icon: path.join(__dirname, 'media', "logo.png"),
+    icon: path.join(__dirname, '..', 'media', "logo.png"),
     fullscreenable: false,
   })
 
